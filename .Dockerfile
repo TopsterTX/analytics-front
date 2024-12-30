@@ -5,14 +5,14 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Копируем файлы package.json и package-lock.json
-COPY ../package.json ./
-COPY ../yarn.lock ./
+COPY package.json ./
+COPY yarn.lock ./
 
 # Устанавливаем зависимости
 RUN yarn install --frozen-lockfile
 
 # Копируем весь исходный код в контейнер
-COPY ../ .
+COPY .. .
 
 # Собираем приложение
 RUN yarn run build
@@ -27,11 +27,12 @@ FROM node:23-alpine AS runner
 WORKDIR /app
 
 # Копируем зависимости и собранное приложение из стадии сборки
-COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/yarn.lock ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/next.config.ts ./
 
 # Указываем порт, который будет использовать приложение
 EXPOSE 3000
