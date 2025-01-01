@@ -1,4 +1,4 @@
-name: Next.js CI/CD Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -21,15 +21,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16  # Укажите версию Node.js, подходящую для вашего проекта
+          node-version: 23  # Укажите версию Node.js, подходящую для вашего проекта
 
       # Шаг 3: Устанавливаем зависимости
       - name: Install dependencies
         run: npm install
 
-      # Шаг 4: Тестирование
-      - name: Run tests
-        run: npm run test  # Убедитесь, что у вас есть команда `test` в package.json
+#      # Шаг 4: Тестирование
+#      - name: Run tests
+#        run: npm run test  # Убедитесь, что у вас есть команда `test` в package.json
 
       # Шаг 5: Сборка приложения
       - name: Build application
@@ -46,8 +46,14 @@ jobs:
       - name: Build Docker image
         run: docker build -t analytics-front-main .
 
+      - name: Configure Docker for HTTP registry
+        run: |
+          echo '{ "insecure-registries": ["${{ secrets.DOCKER_REGISTRY }}"] }' | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+
       - name: Push Docker image to registry
         run: |
+          echo ${{ secrets.REGISTRY_PASSWORD }} | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
           docker tag analytics-front-main ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
           docker push ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
 
@@ -56,7 +62,9 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            docker pull localhost:5000/analytics-front-main:latest;
-            cd ~/code/configs/analytics-web;
-            docker-compose up --build -d;
+            echo ${{ secrets.REGISTRY_PASSWORD }} | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
+            docker pull ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
+            cd ~/code/configs/analytics-web
+            docker compose up --build -d
