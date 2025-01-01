@@ -57,6 +57,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           script: |
-            docker pull localhost:5000/nextjs-app:latest;
+            docker pull localhost:5000/analytics-front-main:latest;
             cd ~/code/configs/analytics-web;
             docker-compose up --build -d;
