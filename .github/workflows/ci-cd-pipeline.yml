@@ -64,7 +64,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo ${{ secrets.REGISTRY_PASSWORD }} | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
-            docker pull ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
+            echo ${{ secrets.REGISTRY_PASSWORD }} | docker login localhost:5000 -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
+            docker pull localhost:5000/analytics-front-main:latest
             cd ~/code/configs/analytics-web
             docker compose up --build -d
