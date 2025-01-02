@@ -56,9 +56,12 @@ jobs:
           echo ${{ secrets.REGISTRY_PASSWORD }} | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
           docker tag analytics-front-main ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
           docker push ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
-          
-      - name: Debug SSH Key
-        run: echo "${{ secrets.SSH_KEY }}" | base64 --decode
+
+      - name: Check SSH Key Length
+        run: echo "${{ secrets.SSH_KEY }}" | wc -c
+
+      - name: Debug SSH Key (Raw)
+        run: echo "${{ secrets.SSH_KEY }}"
 
       - name: Deploy Docker container via SSH
         uses: appleboy/ssh-action@v1.2.0
