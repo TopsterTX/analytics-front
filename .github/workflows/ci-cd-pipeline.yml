@@ -57,12 +57,6 @@ jobs:
           docker tag analytics-front-main ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
           docker push ${{ secrets.DOCKER_REGISTRY }}/analytics-front-main:latest
 
-      - name: Check SSH Key Length
-        run: echo "${{ secrets.SSH_KEY }}" | wc -c
-
-      - name: Debug SSH Key (Raw)
-        run: echo "${{ secrets.SSH_KEY }}"
-
       - name: Deploy Docker container via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
