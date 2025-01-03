@@ -36,7 +36,7 @@ jobs:
         run: yarn build
 
       - name: Build Docker image
-        run: docker build -t ${{secrets.registry_url}}/${{ secrets.image_name }} .
+        run: docker build -t ${{ secrets.image_name }} -f ./.Dockerfile .
 
       - name: Configure Docker for HTTP registry
         run: |
@@ -48,6 +48,6 @@ jobs:
 
       - name: Push Docker image to registry
         run: |
-          docker tag analytics-front-main ${{ secrets.registry_url }}/${{ secrets.image_name }} 
+          docker tag ${{ secrets.image_name }} ${{ secrets.registry_url }}/${{ secrets.image_name }} 
           docker push ${{ secrets.registry_url }}/${{ secrets.image_name }} 
 
