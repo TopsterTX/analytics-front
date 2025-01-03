@@ -5,32 +5,23 @@ on:
     branches:
       - dev
 
-env:
-  SSH_HOST: ${{ secrets.SSH_HOST }}
-  SSH_USER: ${{ secrets.SSH_USER }}
-  SSH_KEY: ${{ secrets.SSH_KEY }}
-  IMAGE_NAME: ${{ secrets.DEV_IMAGE_NAME }}
-  REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-  REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-  REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY }}
-
 jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      image_name: ${{ env.IMAGE_NAME }}
-      registry_password: ${{ env.REGISTRY_PASSWORD }}
-      registry_username: ${{ env.REGISTRY_USERNAME }}
-      registry_url: ${{ env.REGISTRY_URL }}
+      image_name: ${{ secrets.DEV_IMAGE_NAME }}
+      registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+      registry_username: ${{ secrets.REGISTRY_USERNAME }}
+      registry_url: ${{ secrets.DOCKER_REGISTRY }}
 
   deploy:
     needs: build
     uses: ./.github/workflows/deploy.yml
     with:
       branch: "dev" # при изменении надо поменять название сервиса в docker-compose на сервере
-      registry_password: ${{ env.REGISTRY_PASSWORD }}
-      registry_username: ${{ env.REGISTRY_USERNAME }}
-      ssh_host: ${{ env.SSH_HOST }}
-      ssh_user: ${{ env.SSH_USER }}
-      ssh_key: ${{ env.SSH_KEY }}
-      image_name: ${{ env.IMAGE_NAME }}
+      registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+      registry_username: ${{ secrets.REGISTRY_USERNAME }}
+      ssh_host: ${{ secrets.SSH_HOST }}
+      ssh_user: ${{ secrets.SSH_USER }}
+      ssh_key: ${{ secrets.SSH_KEY }}
+      image_name: ${{ secrets.DEV_IMAGE_NAME }}
