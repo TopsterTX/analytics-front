@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/build.yml
-    with:
+    secrets:
       image_name: ${{ secrets.PROD_IMAGE_NAME }}
       registry_password: ${{ secrets.REGISTRY_PASSWORD }}
       registry_username: ${{ secrets.REGISTRY_USERNAME }}
@@ -17,7 +17,7 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/deploy.yml
-    with:
+    secrets:
       branch: "main" # при изменении надо поменять название сервиса в docker-compose на сервере
       registry_password: ${{ secrets.REGISTRY_PASSWORD }}
       registry_username: ${{ secrets.REGISTRY_USERNAME }}

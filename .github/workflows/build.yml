@@ -2,23 +2,19 @@ name: Build Docker Image
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       image_name:
         description: "Docker image tag"
         required: true
-        type: string
       registry_url:
         description: "Docker image tag"
         required: true
-        type: string
       registry_password:
         description: "Docker image tag"
         required: true
-        type: string
       registry_username:
         description: "Docker image tag"
         required: true
-        type: string
 
 jobs:
   build:
@@ -40,18 +36,18 @@ jobs:
         run: yarn build --production
 
       - name: Build Docker image
-        run: docker build -t ${{inputs.registry_url}}/${{ inputs.image_name }} .
+        run: docker build -t ${{secrets.registry_url}}/${{ secrets.image_name }} .
 
       - name: Configure Docker for HTTP registry
         run: |
-          echo '{ "insecure-registries": ["${{ inputs.registry_url }}"] }' | sudo tee /etc/docker/daemon.json
+          echo '{ "insecure-registries": ["${{ secrets.registry_url }}"] }' | sudo tee /etc/docker/daemon.json
           sudo systemctl restart docker
 
       - name: Log in to Docker Registry
-        run: echo ${{ inputs.registry_password }} | docker login ${{ inputs.registry_url }} -u ${{ inputs.registry_username }} --password-stdin
+        run: echo ${{ secrets.registry_password }} | docker login ${{ secrets.registry_url }} -u ${{ secrets.registry_username }} --password-stdin
 
       - name: Push Docker image to registry
         run: |
-          docker tag analytics-front-main ${{ inputs.registry_url }}/${{ inputs.image_name }} 
-          docker push ${{ inputs.registry_url }}/${{ inputs.image_name }} 
+          docker tag analytics-front-main ${{ secrets.registry_url }}/${{ secrets.image_name }} 
+          docker push ${{ secrets.registry_url }}/${{ secrets.image_name }} 
 
