@@ -33,7 +33,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build application
-        run: yarn build --production
+        run: yarn build
 
       - name: Build Docker image
         run: docker build -t ${{secrets.registry_url}}/${{ secrets.image_name }} .
