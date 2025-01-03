@@ -9,7 +9,7 @@ env:
   SSH_HOST: ${{ secrets.SSH_HOST }}
   SSH_USER: ${{ secrets.SSH_USER }}
   SSH_KEY: ${{ secrets.SSH_KEY }}
-  IMAGE_NAME: ${{ secrets.DEV_IMAGE_NAME }}
+  IMAGE_NAME: ${{ secrets.PROD_IMAGE_NAME }}
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
   REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
   REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY }}
@@ -18,8 +18,8 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      image_name: ${{ env.PROD_IMAGE_NAME }}
-      registry_url: ${{ env.DOCKER_REGISTRY }}
+      image_name: ${{ env.IMAGE_NAME }}
+      registry_url: ${{ env.REGISTRY_URL }}
       registry_password: ${{ env.REGISTRY_PASSWORD }}
       registry_username: ${{ env.REGISTRY_USERNAME }}
 
@@ -33,4 +33,4 @@ jobs:
       ssh_host: ${{ env.SSH_HOST }}
       ssh_user: ${{ env.SSH_USER }}
       ssh_key: ${{ env.SSH_KEY }}
-      image_name: ${{ env.PROD_IMAGE_NAME }}
+      image_name: ${{ env.IMAGE_NAME }}

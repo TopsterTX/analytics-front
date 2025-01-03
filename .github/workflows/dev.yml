@@ -18,10 +18,10 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      image_name: ${{ env.DEV_IMAGE_NAME }}
+      image_name: ${{ env.IMAGE_NAME }}
       registry_password: ${{ env.REGISTRY_PASSWORD }}
       registry_username: ${{ env.REGISTRY_USERNAME }}
-      registry_url: ${{ env.DOCKER_REGISTRY }}
+      registry_url: ${{ env.REGISTRY_URL }}
 
   deploy:
     needs: build
