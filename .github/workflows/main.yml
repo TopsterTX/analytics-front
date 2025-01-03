@@ -1,0 +1,27 @@
+name: Main CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      image_name: ${{ secrets.PROD_IMAGE_NAME }}
+      registry_url: ${{ secrets.DOCKER_REGISTRY }}
+      registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+      registry_username: ${{ secrets.REGISTRY_USERNAME }}
+
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy.yml
+    with:
+      branch: "main" # при изменении надо поменять название сервиса в docker-compose на сервере
+      registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+      registry_username: ${{ secrets.REGISTRY_USERNAME }}
+      ssh_host: ${{ secrets.PROD_SSH_HOST }}
+      ssh_user: ${{ secrets.PROD_SSH_USER }}
+      ssh_key: ${{ secrets.PROD_SSH_KEY }}
+      image_name: ${{ secrets.IMAGE_NAME }}
