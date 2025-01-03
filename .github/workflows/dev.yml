@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/build.yml
-    with:
+    secrets:
       image_name: ${{ secrets.DEV_IMAGE_NAME }}
       registry_password: ${{ secrets.REGISTRY_PASSWORD }}
       registry_username: ${{ secrets.REGISTRY_USERNAME }}
@@ -17,11 +17,11 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/deploy.yml
-    with:
+    secrets:
       branch: "dev" # при изменении надо поменять название сервиса в docker-compose на сервере
       registry_password: ${{ secrets.REGISTRY_PASSWORD }}
       registry_username: ${{ secrets.REGISTRY_USERNAME }}
-      ssh_host: ${{ secrets.PROD_SSH_HOST }}
-      ssh_user: ${{ secrets.PROD_SSH_USER }}
-      ssh_key: ${{ secrets.PROD_SSH_KEY }}
-      image_name: "analytics-front-dev:latest" 
+      ssh_host: ${{ secrets.SSH_HOST }}
+      ssh_user: ${{ secrets.SSH_USER }}
+      ssh_key: ${{ secrets.SSH_KEY }}
+      image_name: ${{ secrets.DEV_IMAGE_NAME }}
