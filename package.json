@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "node start.js",
     "lint": "next lint",
-    "eslint:lint-strict": "eslint --fix --max-warning 0 --ext .ts,.tsx,.js ./src",
+    "eslint:lint-strict": "eslint --fix --max-warnings 0 -c ./eslint.config.mjs ./src",
     "prettier:format": "prettier -w ./src/**/*.{tsx,ts}",
     "prepare": "husky install"
   },
