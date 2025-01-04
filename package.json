@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "node start.js",
     "lint": "next lint",
-    "format": "prettier -w ./src/**/*.{tsx,ts}",
+    "eslint:lint-strict": "eslint --fix --max-warning 0 --ext .ts,.tsx,.js ./src",
+    "prettier:format": "prettier -w ./src/**/*.{tsx,ts}",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{tsx,ts}": ["yarn lint", "yarn format"]
+    "*.{tsx,ts}": ["yarn eslint:lint-strict", "yarn prettier:format"]
   },
   "dependencies": {
     "dotenv": "^16.4.7",
