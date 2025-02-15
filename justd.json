@@ -1,0 +1,9 @@
+{
+  "ui": "src/shared/components",
+  "utils": "src/shared/utils",
+  "gray": "gray",
+  "css": "src/app/globals.css",
+  "alias": "@",
+  "language": "typescript",
+  "$schema": "https://getjustd.com/schema.json"
+}
