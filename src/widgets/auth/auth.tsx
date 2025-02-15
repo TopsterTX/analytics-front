@@ -1,5 +1,5 @@
 import { Tabs } from '@/shared/components'
-import { SignInForm, SignUpForm } from '@/features/auth-form'
+import { SignInForm, SignUpForm } from '@/features'
 
 const SIGN_IN_ID = 'sign-in'
 const SIGN_UP_ID = 'sign-up'
