@@ -1,7 +1,7 @@
 'use client'
 
 import { useController, useFormContext } from 'react-hook-form'
-import { TextField, TextFieldProps } from '@/shared/components'
+import { FieldError, Input, Label, TextField, TextFieldProps } from '@/shared/components'
 
 export type BaseTextFieldProps = TextFieldProps & {
   name: string
@@ -9,10 +9,23 @@ export type BaseTextFieldProps = TextFieldProps & {
 
 export const BaseTextField = ({ name, ...rest }: BaseTextFieldProps) => {
   const { control } = useFormContext()
-  const { field } = useController({
+  const {
+    field,
+    fieldState: { error, invalid },
+  } = useController({
     control,
     name,
   })
 
-  return <TextField {...field} {...rest} />
+  return (
+    <TextField
+      {...field}
+      isInvalid={Boolean(error?.message)}
+      error={Boolean(error?.message)}
+      // errorMessage={error?.message}
+      // error={Boolean(error?.message)}
+      // isRequired={true}
+      {...rest}
+    />
+  )
 }

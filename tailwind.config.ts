@@ -9,9 +9,9 @@ const config = withTV({
   theme: {
     extend: {
       screens: {
-        portrait: { raw: '(orientation: portrait)' },
-        landscape: { raw: '(orientation: landscape)' },
-        print: { raw: 'print' },
+        landscapes: {
+          raw: 'only screen and (max-height: 600px) and (orientation: landscape)',
+        },
       },
       colors: {
         light: 'hsl(var(--light))',
@@ -72,6 +72,9 @@ const config = withTV({
         lg: 'calc(var(--radius))',
         md: 'calc(var(--radius) - 2.5px)',
         sm: 'calc(var(--radius) - 5px)',
+      },
+      animation: {
+        shake: 'var(--animate-shake)',
       },
     },
   },
