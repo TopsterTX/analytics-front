@@ -1,21 +1,23 @@
-import { useCallback, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useCallback } from 'react'
+import clsx from 'clsx'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BaseButton, BaseTextField, Form, ProgressBar, useAuthStore } from '@/shared'
-import { signUnFormSchema } from './sign-up-form.schema'
-import { usePasswordProgressBar } from '@/features/auth-form/hooks'
-import clsx from 'clsx'
+import { SignUpFormFields } from '@/features'
+import { Path } from '@/shared'
+import { usePasswordProgressBar } from './hooks'
+import { signUpFormSchema } from './sign-up-form.schema'
 
 export const SignUpForm = () => {
-  const [loading, setLoading] = useState(false)
-
+  const router = useRouter()
   const form = useForm({
-    resolver: zodResolver(signUnFormSchema),
+    resolver: zodResolver(signUpFormSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      'repeat-password': '',
+      [SignUpFormFields.name]: '',
+      [SignUpFormFields.email]: '',
+      [SignUpFormFields.password]: '',
+      [SignUpFormFields.repeatPassword]: '',
     },
   })
 
@@ -25,34 +27,37 @@ export const SignUpForm = () => {
     control,
   } = form
 
-  const { setIsSubmitting } = useAuthStore()
-  const value = usePasswordProgressBar(control, 'password')
+  const { isPending, signup } = useAuthStore()
+  // eslint-disable-next-line
+  // @ts-ignore
+  const value = usePasswordProgressBar(control, SignUpFormFields.password)
 
   const onSubmitHandler = useCallback(
-    handleSubmit((value) => {
-      setLoading(true)
-      setIsSubmitting(true)
-      setTimeout(() => {
-        console.log({ value })
-        setIsSubmitting(false)
-        setLoading(false)
-      }, 2000)
+    handleSubmit(async (value) => {
+      await signup(value)
+      router.replace(Path.home)
     }, console.log),
-    [handleSubmit],
+    [signup],
   )
 
-  const repeatPasswordValue = form.watch('repeat-password')
+  const repeatPasswordValue = form.watch(SignUpFormFields.repeatPassword)
 
-  const isRepeatPasswordError = Boolean(errors['repeat-password']?.message)
-  const isPasswordError = Boolean(errors.password?.message)
+  const isRepeatPasswordError = Boolean(errors[SignUpFormFields.repeatPassword]?.message)
+  const isPasswordError = Boolean(errors[SignUpFormFields.password]?.message)
 
   return (
     <FormProvider {...form}>
       <Form className="flex flex-col gap-6 py-4" onSubmit={onSubmitHandler}>
         <div className="w-full flex flex-col gap-3">
-          <BaseTextField name="name" label="Имя" isDisabled={loading} />
-          <BaseTextField name="email" label="Почта" isDisabled={loading} type="email" />
-          <BaseTextField name="password" label="Пароль" isDisabled={loading} type="password" isRevealable />
+          <BaseTextField name={SignUpFormFields.name} label="Имя" isDisabled={isPending} />
+          <BaseTextField name={SignUpFormFields.email} label="Почта" isDisabled={isPending} type="email" />
+          <BaseTextField
+            name={SignUpFormFields.password}
+            label="Пароль"
+            isDisabled={isPending}
+            type="password"
+            isRevealable
+          />
           <ProgressBar
             value={value}
             progressClassName={clsx({
@@ -60,14 +65,14 @@ export const SignUpForm = () => {
             })}
           />
           <BaseTextField
-            name="repeat-password"
+            name={SignUpFormFields.repeatPassword}
             label="Подтвердите пароль"
-            isDisabled={loading}
+            isDisabled={isPending}
             type="password"
             isRevealable
           />
         </div>
-        <BaseButton size="small" type="submit" isPending={loading} loadingText="Создание аккаунта">
+        <BaseButton size="small" type="submit" isPending={isPending} loadingText="Создание аккаунта">
           Создать аккаунт
         </BaseButton>
       </Form>

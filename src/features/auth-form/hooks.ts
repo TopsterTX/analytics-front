@@ -1,7 +1,7 @@
-import { Control, useWatch } from 'react-hook-form'
+import { Control, FieldValues, useWatch } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 
-type UsePasswordProgressBar = (control: Control, name: string) => number
+type UsePasswordProgressBar = (control: Control<FieldValues, any>, name: string) => number
 
 export const usePasswordProgressBar: UsePasswordProgressBar = (control, name) => {
   const [value, setValue] = useState(0)

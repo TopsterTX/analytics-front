@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/shared/components'
 import { Path } from '@/shared'
+import { Header } from '@/features'
 
 export default function Home() {
   const router = useRouter()
@@ -14,6 +15,7 @@ export default function Home() {
 
   return (
     <div>
+      <Header />
       <p>Главная страница</p>
       <Button onPress={onClickHandler}>Войти</Button>
     </div>

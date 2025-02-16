@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-};
+  // rewrites: () => {
+  //   return [{}]
+  // },
+}
 
-export default nextConfig;
+export default nextConfig
