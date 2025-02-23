@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import clsx from 'clsx'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { BaseButton, BaseTextField, Form, ProgressBar, useAuthStore } from '@/shared'
+import { BaseButton, BaseTextField, Form, Link, ProgressBar, useAuthStore } from '@/shared'
 import { SignUpFormFields } from '@/features'
 import { Path } from '@/shared'
 import { usePasswordProgressBar } from './hooks'
@@ -47,13 +47,13 @@ export const SignUpForm = () => {
 
   return (
     <FormProvider {...form}>
-      <Form className="flex flex-col gap-6 py-4" onSubmit={onSubmitHandler}>
+      <form className="auth-form" onSubmit={onSubmitHandler}>
         <div className="w-full flex flex-col gap-3">
-          <BaseTextField name={SignUpFormFields.name} label="Имя" isDisabled={isPending} />
-          <BaseTextField name={SignUpFormFields.email} label="Почта" isDisabled={isPending} type="email" />
+          <BaseTextField name={SignUpFormFields.name} placeholder="Имя" isDisabled={isPending} />
+          <BaseTextField name={SignUpFormFields.email} placeholder="Почта" isDisabled={isPending} type="email" />
           <BaseTextField
             name={SignUpFormFields.password}
-            label="Пароль"
+            placeholder="Пароль"
             isDisabled={isPending}
             type="password"
             isRevealable
@@ -66,16 +66,30 @@ export const SignUpForm = () => {
           />
           <BaseTextField
             name={SignUpFormFields.repeatPassword}
-            label="Подтвердите пароль"
+            placeholder="Подтвердите пароль"
             isDisabled={isPending}
             type="password"
             isRevealable
           />
         </div>
-        <BaseButton size="small" type="submit" isPending={isPending} loadingText="Создание аккаунта">
-          Создать аккаунт
-        </BaseButton>
-      </Form>
+        <div className="flex flex-col gap-4 justify-center items-center">
+          <BaseButton
+            size="medium"
+            type="submit"
+            isPending={isPending}
+            loadingText="Создание аккаунта"
+            className="w-full md:w-auto"
+          >
+            Создать аккаунт
+          </BaseButton>
+          <p className="md:text-end">
+            Уже есть аккаунт ?{' '}
+            <Link href={Path.signin} className="hover:text-link">
+              Войти
+            </Link>
+          </p>
+        </div>
+      </form>
     </FormProvider>
   )
 }

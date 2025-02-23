@@ -3,10 +3,10 @@
 import { useCallback } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { BaseButton, BaseCheckbox, BaseTextField } from '@/shared/components'
-import { useAuthStore } from '@/shared'
-import { signInFormSchema } from './sign-in-form.schema'
+import { BaseButton, BaseCheckbox, BaseTextField, Link } from '@/shared/components'
+import { Path, useAuthStore } from '@/shared'
 import { SignInFormFields } from '@/features'
+import { signInFormSchema } from './sign-in-form.schema'
 
 export const SignInForm = () => {
   const form = useForm({
@@ -30,21 +30,26 @@ export const SignInForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-6 py-4" onSubmit={onSubmitHandler}>
+      <form className="auth-form" onSubmit={onSubmitHandler}>
         <div className="w-full flex flex-col gap-3">
-          <BaseTextField name={SignInFormFields.name} label="Имя" isDisabled={isPending} />
+          <BaseTextField name={SignInFormFields.name} placeholder="Имя" isDisabled={isPending} />
           <BaseTextField
             name={SignInFormFields.password}
-            label="Пароль"
+            placeholder="Пароль"
             isDisabled={isPending}
             type="password"
             isRevealable
           />
           <BaseCheckbox name={SignInFormFields.remember} label="Запомнить" isDisabled={isPending} />
         </div>
-        <BaseButton type="submit" size="small" loadingText="Вход" isPending={isPending}>
-          Войти
-        </BaseButton>
+        <div className="flex flex-col gap-4 justify-center items-center md:flex-row md:justify-between md:items-end">
+          <BaseButton type="submit" size="medium" loadingText="Вход" isPending={isPending} className="w-full md:w-auto">
+            Войти
+          </BaseButton>
+          <Link isDisabled={isPending} href={Path.signup} className="hover:text-link">
+            Зарегистрироваться
+          </Link>
+        </div>
       </form>
     </FormProvider>
   )

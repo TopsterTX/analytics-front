@@ -1,15 +1,28 @@
+@import "tailwindcss";
 
 /*Uncomment the following line to use the Inter font when not working on a Next.js project.*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 /*Then replace var(--font-inter) to Inter*/
 
 
-@import "tailwindcss";
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/public/fonts/JetBrainsMono[wght].ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/public/fonts/JetBrainsMono-Italic[wght].ttf") format("truetype");
+  font-style: italic;
+}
+
 @plugin 'tailwindcss-animate';
 
 @theme {
+  --font-jet-brains: "JetBrains Mono";
   --font-inter: "Inter";
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  --font-sans: var(--font-jet-brains), var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
   "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono: "Geist Mono", 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace';
 
@@ -56,6 +69,8 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  --color-link: var(--link);
 
   --animate-shake: shake 0.6s ease-in-out;
 
@@ -123,6 +138,8 @@
     --chart-4: var(--color-blue-200);
     --chart-5: var(--color-blue-100);
 
+    --link: var(--color-gray-600);
+
     --radius-lg: 0.5rem;
     --radius-xs: calc(var(--radius-lg) * 0.5);
     --radius-sm: calc(var(--radius-lg) * 0.75);
@@ -176,6 +193,16 @@
     --chart-3: var(--color-blue-400);
     --chart-4: var(--color-blue-300);
     --chart-5: var(--color-blue-200);
+
+    --link: var(--color-gray-300);
+  }
+
+  .full-page {
+    @apply h-dvh w-dvw;
+  }
+
+  .auth-form {
+    @apply rounded-3xl border-border flex flex-col gap-6 py-6 px-4 w-full bg-navbar drop-shadow-2xl;
   }
 }
 

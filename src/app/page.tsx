@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter()
 
   const onClickHandler = useCallback(() => {
-    router.replace(Path.auth)
+    router.replace(Path.signin)
   }, [])
 
   return (

@@ -6,9 +6,9 @@ export type BaseButtonProps = ButtonProps & {
   loadingText?: string | ReactNode
 }
 
-export const BaseButton = ({ loadingText, isPending, children }: BaseButtonProps) => {
+export const BaseButton = ({ loadingText, isPending, children, ...rest }: BaseButtonProps) => {
   return (
-    <Button size="small" type="submit" isPending={isPending}>
+    <Button size="small" type="submit" isPending={isPending} {...rest}>
       {({ isPending }) => (
         <>
           {isPending && <ProgressCircle isIndeterminate />}

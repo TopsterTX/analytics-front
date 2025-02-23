@@ -1,11 +1,8 @@
-import { Separator } from 'react-aria-components'
-import { IconAlignmentJustify, IconPerson } from 'justd-icons'
-import { BurgerMenu, Button, MediaQuery, Switch, useMediaQuery } from '@/shared'
+import { IconPerson } from 'justd-icons'
+import { BurgerMenu, MediaQuery, Switch, useMediaQuery } from '@/shared'
 
 export const Header = () => {
   const mobile = useMediaQuery(MediaQuery.mobile)
-
-  console.log(mobile)
 
   return (
     <header className="h-14 drop-shadow-md">

@@ -64,6 +64,10 @@ const config = withTV({
           DEFAULT: 'hsl(var(--overlay))',
           fg: 'hsl(var(--overlay-fg))',
         },
+        link: {
+          DEFAULT: 'hsl(var(--link))',
+          fg: 'hsl(var(--link))',
+        },
       },
       borderRadius: {
         '3xl': 'calc(var(--radius) + 7.5px)',
