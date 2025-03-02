@@ -1,13 +1,16 @@
+'use client'
+
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import clsx from 'clsx'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { BaseButton, BaseTextField, Form, Link, ProgressBar, useAuthStore } from '@/shared'
-import { SignUpFormFields } from '@/features'
+import { BaseButton, BaseTextField, Link, ProgressBar } from '@/shared'
+import { SignUpFormFields } from '@/features/auth'
 import { Path } from '@/shared'
 import { usePasswordProgressBar } from './hooks'
 import { signUpFormSchema } from './sign-up-form.schema'
+import { useAuthStore } from '../../store'
 
 export const SignUpForm = () => {
   const router = useRouter()

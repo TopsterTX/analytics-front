@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BaseButton, BaseCheckbox, BaseTextField, Link } from '@/shared/components'
 import { Path, useAuthStore } from '@/shared'
-import { SignInFormFields } from '@/features'
+import { SignInFormFields } from '@/features/auth'
 import { signInFormSchema } from './sign-in-form.schema'
 
 export const SignInForm = () => {

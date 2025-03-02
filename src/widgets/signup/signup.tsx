@@ -1,4 +1,5 @@
-import { AnimateWrapper, SignUpForm } from '@/features'
+import { SignUpForm } from '@/features/auth'
+import { AnimateWrapper } from '@/features/animate-wrapper'
 
 export const SignUp = () => {
   return (
